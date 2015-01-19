@@ -1,4 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Telerik.JustMock.EntityFramework.Tests
@@ -45,6 +48,23 @@ namespace Telerik.JustMock.EntityFramework.Tests
 
 			var actual = dbContext.People.Create();
 			Assert.AreSame(expected, actual);
+		}
+
+
+		[TestMethod]
+		public void SetGeneric_ReturnsSet()
+		{
+			var dbContext = Mock.Create<DbContextOne>().PrepareMock();
+			var people = dbContext.Set<Person>();
+			Assert.AreSame(dbContext.People, people);
+		}
+
+		[TestMethod]
+		public void Dispose_DoesNothing()
+		{
+			var dbContext = Mock.Create<DbContextOne>().PrepareMock();
+			dbContext.Dispose();
+			// success
 		}
 
 		public interface IMyDbContext
